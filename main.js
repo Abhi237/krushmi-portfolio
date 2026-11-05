@@ -222,3 +222,28 @@
     });
   }
 })();
+
+/* Desktop project-card tilt + deeper skill perspective */
+(function () {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  if (window.innerWidth <= 900) return;
+  document.querySelectorAll('.card').forEach(function (card) {
+    card.classList.add('tilt-3d');
+    card.addEventListener('mousemove', function (e) {
+      var r = card.getBoundingClientRect();
+      var px = (e.clientX - r.left) / r.width;
+      var py = (e.clientY - r.top) / r.height;
+      var rx = (0.5 - py) * 12;
+      var ry = (px - 0.5) * 14;
+      card.style.transform =
+        'perspective(900px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) translateY(-10px)';
+    });
+    card.addEventListener('mouseleave', function () {
+      card.style.transform = '';
+    });
+  });
+  document.querySelectorAll('.skill-grid li').forEach(function (tile) {
+    tile.classList.add('skill-3d');
+  });
+})();

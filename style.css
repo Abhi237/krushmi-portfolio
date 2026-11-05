@@ -216,3 +216,29 @@ h1,h2,h3{letter-spacing:-.02em}h1{font-weight:800}
   .timeline.reveal-line::before{transform:none}
   .eyebrow{color:var(--accent2);-webkit-text-fill-color:initial;background:none}
 }
+
+/* BI 3D hero */
+.hero{position:relative;overflow:hidden;isolation:isolate}
+.hero-viz{position:absolute;inset:0;z-index:0;pointer-events:none}
+.hero-viz canvas{width:100%;height:100%;display:block;opacity:0;transition:opacity .8s ease}
+.hero-viz.live-3d canvas{opacity:.9}
+.hero-viz-fallback{position:absolute;inset:0;background:
+  radial-gradient(ellipse 70% 55% at 78% 35%,rgba(59,130,246,.14),transparent 60%),
+  radial-gradient(ellipse 50% 40% at 20% 70%,rgba(20,48,107,.08),transparent 55%),
+  linear-gradient(180deg,#f5f8ff 0,#fff 100%);
+  opacity:1}
+.hero-viz.live-3d .hero-viz-fallback{opacity:.35}
+.hero-viz.fallback-only .hero-viz-fallback{opacity:1}
+.hero .wrap{position:relative;z-index:1}
+@media (max-width:820px){
+  .hero-viz canvas{display:none}
+  .hero-viz-fallback{opacity:1}
+}
+.tilt-3d{transform-style:preserve-3d;will-change:transform}
+.tilt-3d > img{transform:translateZ(24px)}
+.cards{perspective:1200px}
+.skill-3d:hover{transform:translateY(-10px) scale(1.06) rotateX(8deg) rotateY(-8deg)!important}
+@media (prefers-reduced-motion:reduce){
+  .hero-viz canvas{display:none!important}
+  .tilt-3d{transform:none!important}
+}
