@@ -31,6 +31,8 @@ h1{font-size:clamp(2.6rem,6vw,4.4rem);margin:0 0 20px}
 .skill-grid li{background:var(--card);border:1px solid var(--line);border-bottom:3px solid var(--accent);padding:18px 16px;font-weight:600;font-size:.95rem;text-align:center}
 .edu{display:grid;grid-template-columns:1fr 1fr;gap:28px}
 .edu-item{border-top:2px solid var(--ink);padding-top:18px}.edu-item h3{margin:4px 0 6px;font-size:1.3rem}.edu-item p{margin:0}
+.org-logo{display:block;object-fit:contain;margin:0 0 14px;max-height:56px;width:auto}
+.org-logo.inline{display:inline-block;vertical-align:middle;max-height:28px;margin:0 8px 0 0}
 .when{color:var(--accent2);font-weight:600;font-size:.85rem;letter-spacing:.06em;text-transform:uppercase;margin:0}
 .meta{color:var(--muted)}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:28px}
