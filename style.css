@@ -223,7 +223,10 @@ h1,h2,h3{letter-spacing:-.02em}h1{font-weight:800}
 .hero{position:relative;overflow:hidden;isolation:isolate}
 .hero-viz{position:absolute;inset:0;z-index:0;pointer-events:none}
 .hero-viz canvas{width:100%;height:100%;display:block;opacity:0;transition:opacity .8s ease}
-.hero-viz.live-3d canvas{opacity:.9}
+.hero-viz.live-3d canvas{opacity:.38}
+.hero-viz::after{content:"";position:absolute;inset:0;pointer-events:none;background:
+  linear-gradient(90deg,rgba(255,255,255,.9) 0%,rgba(255,255,255,.62) 36%,rgba(255,255,255,.18) 58%,transparent 78%),
+  linear-gradient(180deg,rgba(255,255,255,.2) 0%,transparent 42%,rgba(255,255,255,.45) 100%)}
 .hero-viz-fallback{position:absolute;inset:0;background:
   radial-gradient(ellipse 70% 55% at 78% 35%,rgba(59,130,246,.14),transparent 60%),
   radial-gradient(ellipse 50% 40% at 20% 70%,rgba(20,48,107,.08),transparent 55%),

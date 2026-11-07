@@ -1,5 +1,6 @@
 /**
  * Lightweight BI / data-viz hero scene (Three.js CDN).
+ * A quiet line-and-area graph sits behind the copy.
  * Disable with ?no3d=1 or localStorage.krushmi_no3d=1
  */
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
@@ -35,15 +36,11 @@ function boot() {
   renderer.setClearColor(0x000000, 0);
 
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
-  camera.position.set(0, 1.4, 7.2);
+  const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100);
+  camera.position.set(1.4, 0.55, 8.4);
 
-  const ambient = new THREE.AmbientLight(0xffffff, 0.85);
-  const key = new THREE.DirectionalLight(0xffffff, 0.55);
-  key.position.set(3, 6, 4);
-  const fill = new THREE.DirectionalLight(0x93c5fd, 0.35);
-  fill.position.set(-4, 2, -2);
-  scene.add(ambient, key, fill);
+  const ambient = new THREE.AmbientLight(0xffffff, 0.95);
+  scene.add(ambient);
 
   const root = new THREE.Group();
   scene.add(root);
@@ -51,118 +48,88 @@ function boot() {
   const navy = 0x14306b;
   const blue = 0x3b82f6;
   const soft = 0x93c5fd;
-  const white = 0xffffff;
+  const floorY = -1.35;
 
-  // Translucent grid plane
-  const grid = new THREE.GridHelper(8, 12, soft, 0xdbe7f8);
-  grid.position.y = -1.2;
+  const grid = new THREE.GridHelper(14, 18, soft, 0xd7e4f6);
+  grid.position.set(1.6, floorY, -0.8);
   grid.material.transparent = true;
-  grid.material.opacity = 0.55;
+  grid.material.opacity = 0.22;
   root.add(grid);
 
-  // Bar chart cluster
-  const bars = new THREE.Group();
-  const heights = [0.7, 1.35, 0.95, 1.7, 1.15, 1.9, 1.4];
-  heights.forEach((h, i) => {
-    const geo = new THREE.BoxGeometry(0.32, h, 0.32);
-    const mat = new THREE.MeshStandardMaterial({
-      color: i % 2 ? navy : blue,
-      roughness: 0.45,
-      metalness: 0.08,
-      transparent: true,
-      opacity: 0.92
-    });
-    const mesh = new THREE.Mesh(geo, mat);
-    mesh.position.set(i * 0.48 - 1.45, h / 2 - 1.05, 0.6);
-    bars.add(mesh);
-  });
-  bars.position.set(-1.6, 0, -0.4);
-  root.add(bars);
-
-  // Donut / ring chart
-  const donut = new THREE.Mesh(
-    new THREE.TorusGeometry(0.85, 0.22, 16, 48),
-    new THREE.MeshStandardMaterial({
-      color: soft,
-      roughness: 0.35,
-      metalness: 0.12,
-      transparent: true,
-      opacity: 0.9
-    })
-  );
-  donut.position.set(1.85, 0.35, 0.2);
-  donut.rotation.x = Math.PI / 2.4;
-  root.add(donut);
-  const donutCore = new THREE.Mesh(
-    new THREE.TorusGeometry(0.85, 0.08, 12, 48, Math.PI * 1.2),
-    new THREE.MeshStandardMaterial({ color: navy, roughness: 0.4, metalness: 0.1 })
-  );
-  donutCore.position.copy(donut.position);
-  donutCore.rotation.copy(donut.rotation);
-  root.add(donutCore);
-
-  // Scatter points
-  const scatter = new THREE.Group();
-  const pts = [
-    [-0.2, 0.2, 1.4],
-    [0.3, 0.7, 1.1],
-    [0.8, 0.35, 1.5],
-    [1.1, 1.0, 1.2],
-    [0.05, 1.15, 1.55],
-    [0.55, 1.4, 1.35]
+  // Gentle upward series, shifted right so the headline stays clear.
+  const base = [
+    [-5.2, -0.85],
+    [-4.1, -0.55],
+    [-3.0, -0.72],
+    [-1.9, -0.18],
+    [-0.8, -0.38],
+    [0.3, 0.22],
+    [1.4, 0.05],
+    [2.5, 0.72],
+    [3.6, 0.48],
+    [4.7, 1.05],
+    [5.8, 0.88]
   ];
-  pts.forEach((p, i) => {
-    const m = new THREE.Mesh(
-      new THREE.SphereGeometry(0.08, 12, 12),
-      new THREE.MeshStandardMaterial({ color: i % 2 ? blue : navy, roughness: 0.3 })
-    );
-    m.position.set(p[0], p[1], p[2]);
-    scatter.add(m);
-  });
-  scatter.position.set(0.2, -0.2, 0);
-  root.add(scatter);
 
-  // Line chart polyline
-  const linePts = [
-    new THREE.Vector3(-2.4, -0.3, 1.8),
-    new THREE.Vector3(-1.7, 0.15, 1.8),
-    new THREE.Vector3(-1.1, -0.05, 1.8),
-    new THREE.Vector3(-0.5, 0.55, 1.8),
-    new THREE.Vector3(0.1, 0.35, 1.8),
-    new THREE.Vector3(0.7, 0.95, 1.8),
-    new THREE.Vector3(1.3, 0.7, 1.8)
-  ];
-  const lineGeo = new THREE.BufferGeometry().setFromPoints(linePts);
+  const live = base.map(([x, y]) => new THREE.Vector3(x, y, 0));
+
+  const lineGeo = new THREE.BufferGeometry().setFromPoints(live);
   const line = new THREE.Line(
     lineGeo,
-    new THREE.LineBasicMaterial({ color: blue, transparent: true, opacity: 0.85 })
+    new THREE.LineBasicMaterial({
+      color: blue,
+      transparent: true,
+      opacity: 0.55
+    })
   );
   root.add(line);
-  linePts.forEach((v) => {
+
+  const areaMat = new THREE.MeshBasicMaterial({
+    color: 0x3b82f6,
+    transparent: true,
+    opacity: 0.1,
+    side: THREE.DoubleSide,
+    depthWrite: false
+  });
+  let area = new THREE.Mesh(makeAreaGeometry(live, floorY), areaMat);
+  area.position.z = -0.02;
+  root.add(area);
+
+  const dots = new THREE.Group();
+  live.forEach((v, i) => {
     const d = new THREE.Mesh(
-      new THREE.SphereGeometry(0.05, 10, 10),
-      new THREE.MeshStandardMaterial({ color: white, roughness: 0.4 })
+      new THREE.SphereGeometry(i === live.length - 1 ? 0.055 : 0.04, 10, 10),
+      new THREE.MeshBasicMaterial({
+        color: i === live.length - 1 ? navy : whiteSafe(i),
+        transparent: true,
+        opacity: 0.55
+      })
     );
     d.position.copy(v);
-    root.add(d);
+    dots.add(d);
   });
+  root.add(dots);
 
-  // Floating translucent panels (dashboard metaphor)
-  const panelMat = new THREE.MeshStandardMaterial({
-    color: 0xe8eef8,
-    transparent: true,
-    opacity: 0.35,
-    roughness: 0.6,
-    metalness: 0
-  });
-  const panel = new THREE.Mesh(new THREE.BoxGeometry(1.6, 1.0, 0.04), panelMat);
-  panel.position.set(-2.3, 1.1, -0.8);
-  panel.rotation.y = 0.35;
-  root.add(panel);
-  const panel2 = panel.clone();
-  panel2.position.set(2.5, -0.2, -1.1);
-  panel2.rotation.y = -0.4;
-  root.add(panel2);
+  function whiteSafe(i) {
+    return i % 2 ? navy : 0xffffff;
+  }
+
+  function makeAreaGeometry(points, bottom) {
+    const shape = new THREE.Shape();
+    shape.moveTo(points[0].x, bottom);
+    points.forEach((p) => shape.lineTo(p.x, p.y));
+    shape.lineTo(points[points.length - 1].x, bottom);
+    shape.closePath();
+    return new THREE.ShapeGeometry(shape);
+  }
+
+  function refreshGraph() {
+    lineGeo.setFromPoints(live);
+    lineGeo.attributes.position.needsUpdate = true;
+    area.geometry.dispose();
+    area.geometry = makeAreaGeometry(live, floorY);
+    live.forEach((v, i) => dots.children[i].position.copy(v));
+  }
 
   let w = 0;
   let h = 0;
@@ -202,15 +169,17 @@ function boot() {
     mx += (tx - mx) * 0.04;
     my += (ty - my) * 0.04;
 
-    root.rotation.y = t * 0.12 + mx * 0.35;
-    root.rotation.x = 0.18 + my * 0.2;
-    bars.position.y = Math.sin(t * 0.7) * 0.08;
-    donut.rotation.z = t * 0.35;
-    donutCore.rotation.z = t * 0.35;
-    scatter.position.y = Math.sin(t * 0.9 + 1) * 0.1;
-    camera.position.x = mx * 0.45;
-    camera.position.y = 1.4 + my * 0.25;
-    camera.lookAt(0, 0.2, 0);
+    live.forEach((v, i) => {
+      v.y = base[i][1] + Math.sin(t * 0.45 + i * 0.4) * 0.055;
+    });
+    refreshGraph();
+
+    // Slight parallax only: no spinning cluster in front of the type.
+    root.rotation.y = mx * 0.08;
+    root.rotation.x = 0.12 + my * 0.06;
+    camera.position.x = 1.4 + mx * 0.22;
+    camera.position.y = 0.55 + my * 0.12;
+    camera.lookAt(1.1, 0.15, 0);
     renderer.render(scene, camera);
   }
 
@@ -230,7 +199,6 @@ function boot() {
     else resume();
   });
 
-  // Pause when hero far offscreen
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver(
       (entries) => {
