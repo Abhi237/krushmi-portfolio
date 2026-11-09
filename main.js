@@ -250,11 +250,11 @@
 
 /* About chart: draw in when scrolled into view (works with or without motion) */
 (function () {
-  var v = document.querySelector('.about-viz');
-  if (!v) return;
-  if (!('IntersectionObserver' in window)) { v.classList.add('is-in'); return; }
+  var els = document.querySelectorAll('.about-viz, .about-net');
+  if (!els.length) return;
+  if (!('IntersectionObserver' in window)) { els.forEach(function (v) { v.classList.add('is-in'); }); return; }
   var io = new IntersectionObserver(function (es) {
-    es.forEach(function (e) { if (e.isIntersecting) { v.classList.add('is-in'); io.disconnect(); } });
+    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
   }, { threshold: 0.3 });
-  io.observe(v);
+  els.forEach(function (v) { io.observe(v); });
 })();
