@@ -247,3 +247,14 @@
     tile.classList.add('skill-3d');
   });
 })();
+
+/* About chart: draw in when scrolled into view (works with or without motion) */
+(function () {
+  var v = document.querySelector('.about-viz');
+  if (!v) return;
+  if (!('IntersectionObserver' in window)) { v.classList.add('is-in'); return; }
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) { if (e.isIntersecting) { v.classList.add('is-in'); io.disconnect(); } });
+  }, { threshold: 0.3 });
+  io.observe(v);
+})();
