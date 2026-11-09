@@ -27,8 +27,37 @@
 <main id="main">
 <section id="home" class="hero motion-ready">
   <div class="hero-viz" aria-hidden="true">
-    <canvas id="bi-canvas"></canvas>
     <div class="hero-viz-fallback"></div>
+    <svg class="hero-graph" viewBox="0 0 1200 600" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="hgFill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#3b82f6" stop-opacity=".22"/>
+          <stop offset="1" stop-color="#3b82f6" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="hgFade" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#fff" stop-opacity=".3"/>
+          <stop offset=".45" stop-color="#fff" stop-opacity=".75"/>
+          <stop offset="1" stop-color="#fff" stop-opacity="1"/>
+        </linearGradient>
+        <mask id="hgMask"><rect width="1200" height="600" fill="url(#hgFade)"/></mask>
+      </defs>
+      <g mask="url(#hgMask)">
+        <g class="hg-grid">
+          <line x1="0" y1="120" x2="1200" y2="120"/>
+          <line x1="0" y1="250" x2="1200" y2="250"/>
+          <line x1="0" y1="380" x2="1200" y2="380"/>
+          <line x1="0" y1="510" x2="1200" y2="510"/>
+        </g>
+        <g class="hg-drift">
+          <path class="hg-area" d="M0,575 L100,560 L200,568 L300,548 L400,556 L500,530 L560,470 L620,330 L700,250 L780,268 L860,190 L940,210 L1020,140 L1100,158 L1200,96 L1200,600 L0,600 Z"/>
+          <path class="hg-line hg-line-2" pathLength="1" d="M0,590 L100,584 L200,586 L300,574 L400,578 L500,562 L560,520 L620,420 L700,360 L780,372 L860,320 L940,330 L1020,282 L1100,292 L1200,248"/>
+          <path class="hg-line" pathLength="1" d="M0,575 L100,560 L200,568 L300,548 L400,556 L500,530 L560,470 L620,330 L700,250 L780,268 L860,190 L940,210 L1020,140 L1100,158 L1200,96"/>
+          <g class="hg-dots">
+            <circle cx="860" cy="190" r="5"/><circle cx="940" cy="210" r="5"/><circle cx="1020" cy="140" r="5"/><circle cx="1100" cy="158" r="5"/><circle class="hg-last" cx="1194" cy="96" r="7"/>
+          </g>
+        </g>
+      </g>
+    </svg>
   </div>
   <div class="wrap hero-grid">
     <div>
@@ -228,6 +257,5 @@
 
 <footer class="footer"><div class="wrap foot">Krushmi Madkaikar, <span id="yr">2026</span><a href="assets/Krushmi_Madkaikar_Resume.pdf" download>Resume (PDF)</a></div></footer>
 <script src="main.js" defer></script>
-<script type="module" src="bi-scene.js"></script>
 </body>
 </html>
