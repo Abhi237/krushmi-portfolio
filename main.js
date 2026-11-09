@@ -52,7 +52,7 @@
 
   /* Faster typewriter with soft fade between roles */
   (function () {
-    var roles = ['Data Analytics', 'Business Analytics', 'Business Intelligence'];
+    var roles = ['Business Decisions', 'Pricing Analytics', 'Supply Chain Analytics', 'Revenue & Profitability', 'Operations Insights'];
     var staticEl = document.querySelector('.typed-static');
     var textEl = document.querySelector('.typed-text');
     var line = document.querySelector('.typed-line');
@@ -142,7 +142,7 @@
   /* CTA shine + pulse when first seen */
   (function () {
     if (!('IntersectionObserver' in window)) return;
-    var btns = document.querySelectorAll('.actions .btn, .contact-links a');
+    var btns = document.querySelectorAll('.actions .btn');
     var io = new IntersectionObserver(
       function (entries) {
         entries.forEach(function (e) {
