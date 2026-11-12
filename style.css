@@ -306,3 +306,11 @@ h1,h2,h3{letter-spacing:-.02em}h1{font-weight:800}
 @keyframes cdPulse{0%{opacity:.45;transform:scale(1)}100%{opacity:0;transform:scale(1.35,1.6)}}
 @media (max-width:820px){.about-net{display:none}}
 @media (prefers-reduced-motion:reduce){.av-runner,.av-runner-halo,.cd-packet{display:none}.cd-edge{stroke-dashoffset:0}.cd-chip,.cd-node text{opacity:1}}
+
+/* desktop hero balance: keep intro text level with the portrait, less empty space above */
+@media (min-width:821px){
+  .hero{padding:56px 0 64px}
+  .hero-grid{align-items:center}
+  .portrait{max-width:260px}
+  .hero-side{gap:20px}
+}
